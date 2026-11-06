@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bilim Tarihi Sınav Simülasyonu</title>
+<style>
+:root {
+--bg-color: #0f172a;
+--card-bg: #1e293b;
+--text-color: #f8fafc;
+--accent-color: #38bdf8;
+--success-color: #22c55e;
+--error-color: #ef4444;
+--border-color: #334155;
+}
+
+body {
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+background-color: var(--bg-color);
+color: var(--text-color);
+margin: 0;
+padding: 20px;
+display: flex;
+justify-content: center;
+align-items: center;
+min-height: 100vh;
+}
+
+.container {
+width: 100%;
+max-width: 700px;
+background: var(--card-bg);
+border-radius: 16px;
+padding: 30px;
+box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+border: 1px solid var(--border-color);
+}
+
+h1 {
+text-align: center;
+color: var(--accent-color);
+margin-bottom: 25px;
+font-size: 1.5rem;
+}
+
+.quiz-info {
+display: flex;
+justify-content: space-between;
+margin-bottom: 20px;
+font-size: 0.9rem;
+color: #94a3b8;
+border-bottom: 1px solid var(--border-color);
+padding-bottom: 10px;
+}
+
+.question-text {
+font-size: 1.15rem;
+font-weight: 600;
+margin-bottom: 20px;
+line-height: 1.5;
+}
+
+.options-list {
+display: flex;
+flex-direction: column;
+gap: 12px;
+margin-bottom: 20px;
+}
+
+.option-btn {
+background-color: #0f172a;
+color: var(--text-color);
+border: 1px solid var(--border-color);
+padding: 14px 18px;
+border-radius: 8px;
+text-align: left;
+cursor: pointer;
+font-size: 1rem;
+transition: all 0.2s ease;
+}
+
+.option-btn:hover:not(:disabled) {
+background-color: #334155;
+border-color: var(--accent-color);
+}
+
+.option-btn.correct {
+background-color: rgba(34, 197, 94, 0.2);
+border-color: var(--success-color);
+color: #4ade80;
+}
+
+.option-btn.wrong {
+background-color: rgba(239, 68, 68, 0.2);
+border-color: var(--error-color);
+color: #f87171;
+}
+
+.explanation-box {
+background-color: #0f172a;
+border-left: 4px solid var(--accent-color);
+padding: 15px;
+border-radius: 0 8px 8px 0;
+margin-bottom: 20px;
+font-size: 0.95rem;
+line-height: 1.4;
+display: none;
+}
+
+.next-btn {
+background-color: var(--accent-color);
+color: #0f172a;
+border: none;
+width: 100%;
+padding: 14px;
+border-radius: 8px;
+font-size: 1rem;
+font-weight: bold;
+cursor: pointer;
+display: none;
+transition: opacity 0.2s;
+}
+
+.next-btn:hover {
+opacity: 0.9;
+}
+
+.result-screen {
+text-align: center;
+display: none;
+}
+
+.result-screen h2 {
+font-size: 2rem;
+margin-bottom: 10px;
+}
+
+.restart-btn {
+background-color: var(--success-color);
+color: white;
+border: none;
+padding: 14px 28px;
+border-radius: 8px;
+font-size: 1rem;
+font-weight: bold;
+cursor: pointer;
+margin-top: 20px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+<h1>Bilim Tarihi Sınav Simülasyonu</h1>
+
+<div id="quiz-container">
+<div class="quiz-info">
+<span id="question-counter">Soru: 1/38</span>
+<span id="score-display">Puan: 0</span>
+</div>
+
+<div class="question-text" id="question-text">Soru yükleniyor...</div>
+
+<div class="options-list" id="options-list">
+<!-- Şıklar buraya gelecek -->
+</div>
+
+<div class="explanation-box" id="explanation-box">
+<!-- Açıklama buraya gelecek -->
+</div>
+
+<button class="next-btn" id="next-btn" onclick="nextQuestion()">Sonraki Soru</button>
+</div>
+
+<div class="result-screen" id="result-screen">
+<h2>Test Bitti Lan!</h2>
+<p id="final-score" style="font-size: 1.2rem; margin: 20px 0;"></p>
+<button class="restart-btn" onclick="restartQuiz()">Baştan Başla</button>
+</div>
+</div>
+
+<script>
+const quizData = {
+"questions": [
+{
+"question": "Ödoksos'un küre ve koni gibi katı cisimlerin hacmini hesaplamak için geliştirdiği, sonsuz küçük kesitler kullanmaya dayanan yöntem hangisidir?",
+"options": ["Quadrature", "Pithagoras bağıntısı", "Eğikler", "Tüketme metodu", "İntegral"],
+"answer": "Tüketme metodu",
+"explanation": "Oğlum notlarda 6. ders 4. sayfada yazıyor amk. Ödoksos'un katı cisimlerin hacmini hesaplamak için kastığı o sonsuz küçük kesitler olayına 'tüketme metodu' deniyor, beynine kazı bunu."
+},
+{
+"question": "Her biri diğerinin çarpanlarına eşit olan sayılara ne denir?",
+"options": ["İkiz sayılar", "Logaritma", "Dost sayılar", "Ardışık sayılar", "Altın oran"],
+"answer": "Dost sayılar",
+"explanation": "4. ders 21. sayfada var lan bu. Çarpanlarının toplamı birbirine eşit olan o ucube sayılara (220 ile 284 gibi) 'dost sayılar' diyor Pithagorasçı pezevenkler."
+},
+{
+"question": "Re Architectura adlı eseri yazan, kendi adıyla anılan bir değirmen modeli bulunan Romalı mühendis kimdir?",
+"options": ["Marcus Antonius", "Ktesibios", "Marcus Vitruvius Pollio", "Euclides", "Arkhimedes"],
+"answer": "Marcus Vitruvius Pollio",
+"explanation": "6. ders 55. sayfa. Roma ordusunda çalışan mühendis Vitruvius'un 'Re Architectura' diye bir kitabı var, adamın kendi adıyla anılan değirmeni bile var amk."
+},
+{
+"question": "Karşı ağırlıkla çalışan vinçler ya da mancınıklar kimin icadıdır?",
+"options": ["Arkhimedes (Arşimet)", "Byzantiumlu Philion", "İskenderiyeli Heron", "Marcus Vitriviyus", "Ktesibius"],
+"answer": "Ktesibius",
+"explanation": "6. derse bak, sayfa 47-48. Mancınığı, karşı ağırlıklı vinçleri falan Ktesibios denen herif bulmuş."
+},
+{
+"question": "Her şeyin sayılardan ibaret olduğunu ileri süren, matematik ve geometri alanında ilk büyük keşifleri yapan bilim insanı ve filozof kimdir?",
+"options": ["Heraklitos", "Erastotenes", "Euklides", "Apollonius", "Pithagoras"],
+"answer": "Pithagoras",
+"explanation": "Pithagoras amk, 4. ders 19. sayfada bağırıyor adam 'her şey sayılardan ibarettir' diye."
+},
+{
+"question": "Evrendeki dört unsur, İnsan vücudundaki dört hılt (salgı) ile açıklanır. Bu sıvılar dengede ise insan sağlıklıdır. Yunan tıbbının temelini oluşturan bu görüş kim tarafından ortaya atılmıştır?",
+"options": ["İmhotep", "Demokritos", "Sokrates", "Hipokrates", "Pithagoras"],
+"answer": "Hipokrates",
+"explanation": "Dört unsuru (ateş, hava, su, toprak) vücuttaki dört sıvıyla eşleştiren ve bu denge bozulunca sıçtığımızı söyleyen İstanköylü Hipokrates'tir, Humoral Teori derler lan buna."
+},
+{
+"question": "Yer'in gezegenler gibi yörüngesi olan bir gezegen olduğu fikri kime aittir?",
+"options": ["Thales", "Platon", "Socrates", "Pithagoras", "Philolaos"],
+"answer": "Philolaos",
+"explanation": "4. ders 29 ve 31'de yazıyor. Dünyayı evrenin merkezinden siktir edip yerine 'merkezi ateş' koyan ve Dünya'nın da hareket ettiğini söyleyen Pithagoras'ın manyak öğrencisi Filolaos."
+},
+{
+"question": "Atina gençliğini "yoldan saptırma" ile suçlanarak mahkemeye çıkarılan ve ölüme mahkûm edilen, Yunan filozoflarının belki de en ünlüsü, öğrencisi Platon'a göre "en iyi, en akıllı ve en dürüst insan" kimdir?",
+"options": ["Tales", "Erathostenos", "Filalaos", "Pithagoras", "Sokrates"],
+"answer": "Sokrates",
+"explanation": "Atina gençliğini dinsizlikle yoldan çıkarıyor diye yargılanıp baldıran zehriyle gebertilen ünlü filozof Sokrates'tir oğlum."
+},
+{
+"question": "Geleneğe göre Asklepios kimdir?",
+"options": ["Yunan matematiğinin kurucusu", "Yunan tıbbının kurucusu", "Yunan astronomisinin kurucusu", "Yunan felsefesinin kurucusu", "İyon biliminin temssilcisi"],
+"answer": "Yunan tıbbının kurucusu",
+"explanation": "Mitolojide şifa ve tıp tanrısı Asklepios'tur amk, Yunan tıbbının kurucusu sayılır adam."
+},
+{
+"question": "Hippokrates Atina'ya ilk gittiği zaman, matematikçiler hangi üç problem ile karşı karşıyaydılar?",
+"options": [
+"Kübün iki katının alınması, açının üç eşit parçaya bölünmesi, elips çizilmesi.",
+"Kübün iki katının alınması, Elips çizilmesi, «pi» sayısı",
+"Kübün iki katının alınması, açının üç eşit parçaya ayrılması, «pi» sayısı",
+"Kübün iki katının alınması, beşgen çizimi, «pi» sayısı",
+"Kübün iki katının alınması, dokuzgen çizimi, «pi» sayısı"
+ ],
+"answer": "Kübün iki katının alınması, açının üç eşit parçaya ayrılması, «pi» sayısı",
+"explanation": "Antik çağın çözülemeyen o belalı 3 matematik problemi şunlar lan: Kübün iki katına çıkarılması, açının üç eşit parçaya bölünmesi ve pi sayısının tam hesabı (yani çemberin karelenmesi)."
+},
+{
+"question": "Bilinen ilk dünya haritasını içeren Geographike Syntaxis eseri kim hazırlamıştır?",
+"options": ["Eratostenes", "Filion", "Aristoteles", "Apollonius", "Batlamyus"],
+"answer": "Batlamyus",
+"explanation": "Batlamyus lan. Herif Almagest'i yazmakla kalmamış, koordinat sistemli ilk dünya haritasını barındıran Geographike Syntaxis'i de çakmış."
+},
+{
+"question": "Mechanike Syntaxis adlı eseri yazan İskenderiye'de yetişen ünlü mekanikçi kimdir?",
+"options": ["Bizantiyumlu Pilio", "İskenderiyeli Heron", "Platon", "Aristoteles", "Arkhimedes"],
+"answer": "Bizantiyumlu Pilio",
+"explanation": "6. ders 51-52. İskenderiye'de yetişen mekanikçi Bizantiyumlu Philo yazdı o Mechanike Syntaxis'i."
+},
+{
+"question": "Pithagorasçıların bulduğu «armonik ortalama» nedir?",
+"options": ["6, 8, 12 dizisi", "3, 6, 9 dizisi", "6, 8, 10 dizisi", "3, 9, 27 dizisi", "2, 4, 8, dizisi"],
+"answer": "6, 8, 12 dizisi",
+"explanation": "6, 8, 12 dizisi. 4. ders 23. sayfada Pithagorasçıların armonik ortalamaya verdikleri banko örnek bu."
+},
+{
+"question": "Kenar uzunluklarıyla ilgili olan 3, 4, 5 kuralını Pithagoras nereden öğrenmiş olmalıydı?",
+"options": ["Mezopotamya", "Sirakuza", "İtalya", "Mısır", "Girit"],
+"answer": "Mısır",
+"explanation": "4. ders 18. sayfa. Pithagoras o meşhur 3-4-5 dik üçgen kuralını Mısır'da öğrenmiş amk."
+},
+{
+"question": "Astronomide eş merkezli küreleri doktrini kime aittir?",
+"options": ["Philolaos", "Platon", "Pithagoras", "Thales", "Ödoksos"],
+"answer": "Ödoksos",
+"explanation": "6. ders sayfa 3. Eş merkezli küreler teorisini atan herif Ödoksos."
+},
+{
+"question": "Evrene doğaüstü değil, doğaya dayalı açıklamalar getirmiş, gözlem ve tecrübelere başvurarak bunların temelinde yer alan teorileri ortaya koymaya çalışmış olan Eski Yunan filozofu kimdir?",
+"options": ["Tales", "Pithagoras", "Socrates", "Platon", "Aristoteles"],
+"answer": "Aristoteles",
+"explanation": "Aristoteles oğlum. Platon gibi sadece kafadan sıkmak yerine, doğayı gözlemleyip tecrübelerle elle tutulur teoriler kuran adamdır."
+},
+{
+"question": "Büyük İskendere hocalık yapmış, Antik çağın en önemli bilim insanı kimdir?",
+"options": ["Sokrates", "Aristoteles", "Thales", "Heraklitos", "Demokritos"],
+"answer": "Aristoteles",
+"explanation": "Aristoteles lan. Büyük İskender'in hocası olması için saraya davet edilmiş zamanında."
+},
+{
+"question": "Evrenin merkezinde "merkezi ateş" ve "karşı dünya kavramlarını kullanarak evreni açıklamaya çalışan, antik çağın en önemli alimlerinden biri olan astronom kimdir?",
+"options": ["Platon", "Sokrates", "Thales", "Pithagoras", "Filolaos"],
+"answer": "Filolaos",
+"explanation": "Soruyu iki kere sormuşlar amk. Cevap yine Filolaos, merkezi ateş ve karşı dünya geyiği onun işi."
+},
+{
+"question": "Aristoteles'in Atina'da kurmuş olduğu okulunun adı nedir?",
+"options": ["Academia", "Atina okulu", "Gymnasium", "Lyceum", "Museum"],
+"answer": "Lyceum",
+"explanation": "6. ders sayfa 12. Aristoteles'in Atina'da açtığı o meşhur okulun adı Lyceum (Lykeion)."
+},
+{
+"question": "Sağlığın vücut içindeki kuvvetlerin dengesine bağlı olduğunu öğreten Yunanlı hekim kimdir?",
+"options": ["Pithagoras", "Philolaos", "Kinidos'lu Hippokrates", "Kroton'lu Alkmaion", "Akragas'lı Empedokles"],
+"answer": "Kroton'lu Alkmaion",
+"explanation": "İnsan sağlığının vücuttaki zıt kuvvetlerin dengesiyle sağlandığını savunan Krotonlu Alkmaion'dur."
+},
+{
+"question": "Batı Anadolu'da yer alan Truva'daki (Troy) kuvvetlerin yarımadada yaşayan Yunanlılar ile yaptıkları efsanevî Truva savaşındaki olayların kaydı gibi görünen ilk yazılı destan hangisidir?",
+"options": ["İlyada destanı", "Gılgamış destanı", "Kadeş destanı", "Odisseia destanı", "Atlantis destanı"],
+"answer": "İlyada destanı",
+"explanation": "Homeros'un Truva savaşını anlattığı, Yunanlıların bilinen ilk büyük destanı İlyada'dır amk."
+},
+{
+"question": "Bazı anatomik disseksiyonların (kadavraları keserek inceleme) yapıldığı Yunan tıp ekolü hangisidir?",
+"options": ["İstanköy tıp ekolü", "Kinidos tıp ekolü", "İyonya tıp ekolü", "Sakız adası tıp ekolü", "Girit tıp ekolü"],
+"answer": "Kinidos tıp ekolü",
+"explanation": "Kinidos ekolü. Hastalığı organ bazında detaylıca sınıflandırıp kadavra kesmeye (disseksiyon) giden manyaklar bunlar."
+},
+{
+"question": "Sokrates'in çağdaşı olan Sakız Adalı Hippokrates, Atina'da bir okul kurmuş ve bu okul sayesinde Atina Yunan dünyasının en önemli bilim merkezi olmuştur. Bu okul hangi alanda ünlenmiştir.",
+"options": ["müzik", "matematik", "fizik", "astronomi", "tıp"],
+"answer": "matematik",
+"explanation": "Matematik amk. Sakız Adalı Hipokrat'ı tıpçı Koslu Hipokrat'la karıştırma sakın, Sakızlı olan 'ayçaların karelenmesi' gibi geometri işlerinde yardırmıştır."
+},
+{
+"question": "Merkezi ateş ve karşı dünya "antikthon" evren modeli kime aittir?",
+"options": ["Heraklitos", "Anaksogaras", "Anaksimandros", "Filolaos", "Eratosthenes"],
+"answer": "Filolaos",
+"explanation": "Ulan aynı soruyu 3. kez çakmışlar. Filolaos işte, merkezi ateş ve antikthon muhabbeti."
+},
+{
+"question": "(Elementler) adlı, Yunan geometrisinin sistematik bir sentezi olan eser kime aittir?",
+"options": ["Pithagoras", "Thales", "Euclides", "Platon", "Aristoteles"],
+"answer": "Euclides",
+"explanation": "6. ders sayfa 35. Geometrinin anasını ağlatan Elementler (Stoikheia) kitabını yazan Öklides (Euclid)."
+},
+{
+"question": "İskenderiye' deki Müzede büyük matematik okulunu kuran Öklides'in şöhreti daha çok hangi eserinden kaynaklanmaktadır?",
+"options": ["Analitikler", "Stoikheia (Elementler)", "Koni kesitleri", "Arithmethika", "Géométrie"],
+"answer": "Stoikheia (Elementler)",
+"explanation": "Üstteki sorunun laciverti. Öklides'in en meşhur eseri Stoikheia (Elementler)."
+},
+{
+"question": "Yunanlılar, matematik bilgilerini Thales kanalıyla hangi eski uygarlıktan almışlardır?",
+"options": ["Mezopotamya", "Sirakuza", "İtalya", "Mısır", "Girit"],
+"answer": "Mısır",
+"explanation": "İyon biliminin tayfası Thales falan Mısır'dan geometriyi ve arazi ölçümünü, Mezopotamya'dan astronomiyi cukkaladı. Geometri Mısır'dan geçme lan."
+},
+{
+"question": ""Koine" nedir?",
+"options": ["Bir cins para birimi", "Yunan Generali", "Yunan ortak kültür dili", "Attalos hükümdarlarına verilen isim", "Bergama kütüphanesi"],
+"answer": "Yunan ortak kültür dili",
+"explanation": "Koine, Antik ve Helenistik dönemde Akdeniz'de konuşulan ortak Yunanca kültür diline deniyor."
+},
+{
+"question": "İslam uygarlığı en çok hangi uygarlıklardan etkilenmiştir?",
+"options": ["Helenistik, Roma ve Bizans", "Girit, Miken ve Mısır", "Germen, Astekler, Etrüsk", "Hitit, Romen ve Trak", "Baltık, Germen, Slav"],
+"answer": "Helenistik, Roma ve Bizans",
+"explanation": "7. ders sayfa 22. İslam uygarlığı Helenistik, Roma ve Bizans uygarlıklarından feyzalmıştır."
+},
+{
+"question": "Gördüğümüz herşeyin, duyularımızla farkına vardığımız her nesnenin "görünüş"ten başka bir şey olmadığını varsayan teori kime aittir?",
+"options": ["Socrates", "Platon", "Pithagoras", "Thales", "Aristoteles"],
+"answer": "Platon",
+"explanation": "Gördüğümüz her şeyin birer kopya ve gölge olduğunu söyleyen o meşhur İdealar Kuramı Platon'un işidir."
+},
+{
+"question": "Platon'un evren anlayışının temelinde ........ ve ........doktrini yer almaktaydı. Boş bırakılan kısımlara aşağıdaki şıklardan hangisi gelmelidir?",
+"options": ["Ay altı ve ayüstü alem", "Dört unsur ve hareket", "İdeal evren ve real dünya", "İyi ahlak ve Simetri", "Mikrokozmos ve makrokosmos"],
+"answer": "İdeal evren ve real dünya",
+"explanation": "İdeal evren ve real dünya amk. Değişmez mükemmel formlar ile duyularımızla algıladığımız kusurlu dünya ayrımı."
+},
+{
+"question": "Yer'in evrenin merkezinde bulunduğuna ve Güneş, Ay ve gezegenlerin Yer'in etrafında değişik hızlarda dönmekte olduğuna kesin olarak inanan filozof kimdir?",
